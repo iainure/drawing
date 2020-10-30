@@ -16,4 +16,5 @@ npm run serve
 npm run build
 ```
 
+### Description
 A simple drawing app using Vue 3 (incl. composition API), Vue CLI, D3 and Bootstrap 5. Backend powered by AWS S3, API gateway and Lambda.

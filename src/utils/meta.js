@@ -1,1 +1,1 @@
-export const githubUrl = 'https://github.com/iainure'
+export const githubUrl = 'https://github.com/iainure/drawing'

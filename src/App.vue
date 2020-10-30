@@ -1,30 +1,105 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+	<div class="layout">
+		<header>
+			<nav class="navbar navbar-light navbar-expand">
+				<ul class="navbar-nav">
+					<li :key="item.path" v-for="item in menu" class="nav-item">
+						<router-link :class="`nav-link`" :to="item.path">{{ item.label }}</router-link>
+					</li>
+				</ul>
+			</nav>
+		</header>
+		<section>
+			<router-view v-slot="{ Component }">
+				<transition name="fade-up" mode="out-in">
+					<component :is="Component" />
+				</transition>
+			</router-view>
+		</section>
+		<Footer />
+	</div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+
+import { reactive } from 'vue'
+import Footer from '@/components/Footer'
+
+export default {
+
+	components: {
+		Footer
+	},
+
+	setup () {
+
+		const menu = reactive([
+			{
+				path: '/',
+				label: 'Home'
+			},
+			{
+				path: '/list',
+				label: 'List'
+			},
+			{
+				path: '/about',
+				label: 'About'
+			}
+		])
+
+		return {
+			menu
+		}
+
+	}
+
 }
 
-#nav {
-  padding: 30px;
+</script>
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+<style lang="scss" scoped>
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.layout {
+	height: 100%;
+	display: grid;
+	grid-template-columns: 1fr minmax(500px, 1200px) 1fr;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas: 
+	'. header .'
+	'. main .'
+	'. footer .';
 }
+
+header {
+	grid-area: header;
+}
+
+section {
+	grid-area: main;
+}
+
+
+.fade-up-enter-active,
+.fade-up-leave-active {
+  transition: transform 0.1s ease-in, opacity 0.1s ease-out;
+}
+
+.fade-up-enter-from {
+  transform: translateX(-100px);
+  opacity: 0;
+}
+
+.fade-up-leave-to {
+  transform: translateX(100px);
+  opacity: 0;
+}
+
+.fade-up-leave-from,
+.fade-up-enter-to {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+
 </style>
